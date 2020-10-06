@@ -576,12 +576,12 @@ export default class Community {
     // Make sure the wallet exists.
     await this.checkWallet();
 
-    let transaction = await this.arweave.createTransaction({
+    let transaction: Transaction = await this.arweave.createTransaction({
       data: new Uint8Array(content),
     }, this.wallet);
     transaction.addTag('Content-Type', contentType);
     await this.arweave.transactions.sign(transaction, this.wallet);
-    const response = await this.arweave.transactions.post(transaction);
-    return response;
+    const response: Response = await this.arweave.transactions.post(transaction);
+    return { transaction, response };
   }
 }
