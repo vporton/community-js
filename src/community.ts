@@ -571,4 +571,17 @@ export default class Community {
     // @ts-ignore
     return interactWrite(this.arweave, this.wallet, this.communityContract, input);
   }
+
+  async uploadFile(content: ArrayBuffer, contentType: string) {
+    // Make sure the wallet exists.
+    await this.checkWallet();
+
+    let transaction = await this.arweave.createTransaction({
+      data: new Uint8Array(content),
+    }, this.wallet);
+    transaction.addTag('Content-Type', contentType);
+    await this.arweave.transactions.sign(transaction, this.wallet);
+    const response = await this.arweave.transactions.post(transaction);
+    return response;
+  }
 }
