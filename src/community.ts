@@ -581,7 +581,7 @@ export default class Community {
     }, this.wallet);
     transaction.addTag('Content-Type', contentType);
     await this.arweave.transactions.sign(transaction, this.wallet);
-    const response: Response = await this.arweave.transactions.post(transaction);
+    const response = await this.arweave.transactions.post(transaction);
     return { transaction, response };
   }
 }
